@@ -1,0 +1,625 @@
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>
+		A_Little_Game
+	</title>
+</head>
+
+<body>
+	<h1>
+		A Little Game
+	</h1>
+	<h4>
+		This is a little game redesigned and implemented by a group of students
+	</h4>
+	<h2>
+		Now here are a few tips about how to play the game
+	</h2>
+	<h3>
+		<ul>
+			<li>The character that you are controlling is represented as a (ball). You can control it via these keys:
+			</li>
+			<ul>
+				<li>() for upper left</li>
+				<li>() for upper right</li>
+				<li>() for left</li>
+				<li>() for right</li>
+				<li>() for lower left</li>
+				<li>() for lower right</li>
+			</ul>
+			<li>What you are gonna do is to steal the rectangle and safely return to where you start</li>
+			<li>The enemies armed with guns are represented as a (balls with two covers). They will kill the invader
+				immediately when the invader(you) comes into their visions! You should never be seen by them!</li>
+			<li>The enemies armed with knives are represented as (balls with one cover). They will run to catch the
+				invader! You should never be caught up by them!</li>
+		</ul>
+	</h3>
+	<br>
+	<h2> Please note that: </h2>
+	<h3>
+		<ul>
+			<li>The enemies stay where they are until they turn around and see you! The gun get you killed immediately
+				while those with knives will chase you. Even if you disappear they will still try to get to <h3>where
+					you were!</h3>before they return to the positions that they took initially</li><br>
+			<li>Try to make good use of those with knives since they help you hide from the guns.</li>
+		</ul>
+	</h3>
+	<br><br><br>
+
+	<canvas id="myCanvas" width="1000" height="400" style="border:1px solid">Your browser does not support the HTML5
+		canvas tag.</canvas>
+
+	<script type="text/javascript">
+		var c = document.getElementById("myCanvas");
+		var draw = c.getContext("2d");
+
+		var plx = 92;
+		var ply = 80;
+		var m1x = 276;
+		var m1y = 240;
+		var m2x = 874;
+		var m2y = 160;
+		var m1f = 4;
+		var m1fv = 1;
+		var m2f = 6;
+		var m2fv = 1;
+		var m1r = false;
+		var m2r = false;
+		var g1x = 828 - 20;
+		var g1y = 240 - 20;
+
+		var ax = -92;
+		var ay = 0;
+		var wx = -46;
+		var wy = 80;
+		var ex = 46;
+		var ey = 80;
+		var dx = 92;
+		var dy = 0;
+		var xx = 46;
+		var xy = -80;
+		var zx = -46;
+		var zy = -80;
+
+		var a = false;
+		var w = false;
+		var e = false;
+		var d = false;
+		var x = false;
+		var z = false;
+
+		var record_plx;
+		var record_ply;
+
+		var home_m1x = m1x;
+		var home_m1y = m1y;
+		var home_m2x = m2x;
+		var home_m2y = m2y;
+		var getRec = false;
+		var goHome = false;
+		var getHome = false;
+
+	
+		var win = false;
+		var lose = false;
+		var steal = false;
+		var time = null;
+		var flag = 0;
+		var rou = false;
+		drawplayer(draw, plx, ply);
+		drawrec(draw, g1x, g1y);
+		drawman(draw, m1f, m1x, m1y);
+		drawman(draw, m2f, m2x, m2y);
+		drawgun(draw);
+		drawmap(draw);
+		time = setInterval(round, 3000);
+
+		function round() {
+			// drawplayer(draw,plx,ply);
+			// drawrec(draw,g1x,g1y);
+			// drawman(draw,m1f,m1x,m1y);
+			// drawman(draw,m2f,m2x,m2y);
+			// drawgun(draw);
+			// drawmap(draw);
+			if (a == true || w == true || e == true || d == true || x == true || z == true) {
+				if (ply == 80 && x == true) { flag = 1; }
+				if (ply == 160 && (plx == 322 || plx == 414 || plx == 506 || plx == 690 || plx == 782) && (a == true || z == true || x == true || d == true)) { flag = 2; }
+				if (ply == 160 && plx == 230 && (a == true || d == true)) { flag = 3; }
+				if (ply == 160 && plx == 598 && (a == true || w == true || d == true || x == true || z == true)) { flag = 4; }
+				if (ply == 160 && plx == 874 && (a == true || w == true || z == true)) { flag = 5; }
+				if (ply == 240 && (plx == 368 || plx == 460) && (a == true || w == true || e == true || d == true)) { flag = 6; }
+				if (ply == 320 && plx == 690 && (a == true || w == true || e == true || d == true)) { flag = 6; }
+				if (ply == 240 && (plx == 552 || plx == 644) && (a == true || w == true || e == true || d == true || x == true)) { flag = 7; }
+				if (ply == 240 && plx == 276 && (e == true || d == true)) { flag = 8; }
+				if (ply == 240 && plx == 736 && (a == true || w == true || e == true || d == true || z == true)) { flag = 9; }
+				if (ply == 240 && plx == 828 && (a == true || w == true || e == true || z == true)) { flag = 10; steal = true; }
+				if (ply == 320 && plx == 598 && (w == true || d == true)) { flag = 11; }
+				if (ply == 160 && plx == 138 && (w == true || d == true)) { flag = 11; }
+				if (ply == 320 && plx == 782 && (a == true || e == true)) { flag = 12; }
+				if (a == true && (flag == 2 || flag == 3 || flag == 4 || flag == 5 || flag == 6 || flag == 7 || flag == 9 || flag == 10 || flag == 12)) {
+					plx = plx - 92;
+					flag = 0;
+					rou = true;
+					a = false;
+				} else if (z == true && (flag == 2 || flag == 4 || flag == 5 || flag == 9 || flag == 10)) {
+					plx = plx - 46;
+					ply = ply + 80;
+					flag = 0;
+					rou = true;
+					z = false;
+				} else if (x == true && (flag == 1 || flag == 2 || flag == 4 || flag == 7)) {
+					plx = plx + 46;
+					ply = ply + 80;
+					flag = 0;
+					rou = true;
+					x = false;
+				} else if (d == true && (flag == 2 || flag == 3 || flag == 4 || flag == 6 || flag == 7 || flag == 8 || flag == 9 || flag == 11)) {
+					plx = plx + 92;
+					flag = 0;
+					rou = true;
+					d = false;
+				} else if (e == true && (flag == 6 || flag == 7 || flag == 8 || flag == 9 || flag == 10 || flag == 12)) {
+					plx = plx + 46;
+					ply = ply - 80;
+					flag = 0;
+					rou = true;
+					e = false;
+				} else if (w == true && (flag == 4 || flag == 5 || flag == 6 || flag == 7 || flag == 9 || flag == 10 || flag == 11)) {
+					plx = plx - 46;
+					ply = ply - 80;
+					flag = 0;
+					rou = true;
+					w = false;
+				}
+				step = true;
+			}
+
+
+			if (rou == true) {
+				draw.clearRect(0, 0, c.width, c.height);
+				drawplayer(draw, plx, ply);
+				if (steal == false) {
+					drawrec(draw, g1x, g1y);
+				}
+					if (m1r == false) {
+						if (m1f == 4) {
+							if (ply == 240) {
+								m1r = true; //detected invader
+								record_plx = plx;
+								record_ply = ply;
+							}
+							else {
+								m1f += m1fv;
+								m1f = -(m1f % 2) + 4;
+							}
+						}
+						else if (m1f == 3) {
+							if (plx == 322 && ply == 160) {
+								m1r = true;
+								record_plx = plx;
+								record_ply = ply;
+							}
+							else {
+								m1f += m1fv;
+								m1f = -(m1f % 2) + 4;
+							}
+						}
+					}
+					if (m1r == true) {
+
+
+						if (m1f == 3) {
+							m1x += ex; m1y += ey;
+						} else if (m1f == 4) {
+							m1x += dx; m1y += dy;
+							if (ply == 240 && plx >= m1x) {
+								record_plx = plx;
+								record_ply = ply;
+								getRec = false;
+							}
+						} else if (m1f == 6) {
+							m1x += zx; m1y += zy;
+						} else if (m1f == 1) {
+							m1x += ax; m1y += ay;
+							if (ply == 240 && plx <= m1x) {
+								record_plx = plx;
+								record_ply = ply;
+								getRec = false;
+							}
+						}
+
+
+
+						if (m1x == record_plx && m1y == record_ply) {
+							getRec = true;
+						}
+						if (getRec) {
+
+							if (!goHome) {
+								goHome = true;
+								m1f = (m1f + 3) % 6;//reverse it.
+
+							}
+						}
+						if (goHome && m1x == home_m1x && m1y == home_m2y) {
+							getHome = true;
+						}
+						if (getHome) {
+							m1r = false;
+							m1f = (m1f + 3) % 6;//reverse it.
+							getRec = false;
+							goHome = false;
+							getHome = false;
+						}
+
+
+					}
+					if (m2r == false) {
+						if (m2f == 1) {
+							if (ply == 160) {
+								m2r = true; //detected invader
+								record_plx = plx;
+								record_ply = ply;
+							}
+							else {
+								m2f = 2;
+							}
+						}
+						else if (m2f == 2) {
+							if (plx == 828 && ply == 80) {
+								m2r = true;
+								record_plx = plx;
+								record_ply = ply;
+							}
+							else {
+								m2f = 6;
+							}
+						}
+						else if (m2f == 6) {
+							if ((plx == 828 && ply == 240) || (plx == 782 && ply == 320)) {
+								m2r = true;
+								record_plx = plx;
+								record_ply = ply;
+							}
+							else {
+								m2f = 1;
+							}
+
+						}
+
+					}
+					if (m2r == true) {
+
+						if (m2f == 2) {
+							m2x += wx; m2y += ey;
+						} else if (m2f == 4) {
+							m2x += dx; m2y += dy;
+							if (ply == 160 && plx >= m2x) {
+								record_plx = plx;
+								record_ply = ply;
+								getRec = false;
+							}
+						} else if (m2f == 5) {
+							m2x += xx; m2y += xy;
+						} else if (m2f == 1) {
+							m2x += ax; m2y += ay;
+							if (ply == 160 && plx <= m2x) {
+								record_plx = plx;
+								record_ply = ply;
+								getRec = false;
+							}
+						} else if (m2f == 6) {
+							m2x += zx; m2y += zy;
+							if ((plx == 828 || (plx == 782 && ply == 320)) && plx <= m1x) {
+								record_plx = plx;
+								record_ply = ply;
+								getRec = false;
+							}
+
+						} else if (m2f == 3) {
+							m2x += ex; m2y += ey;
+							if ((plx == 828 || plx == 874) && plx >= m1x) {
+								record_plx = plx;
+								record_ply = ply;
+								getRec = false;
+							}
+						}
+
+
+
+
+						if (m2x == record_plx && m2y == record_ply) {
+							getRec = true;
+						}
+						if (getRec) {
+
+							if (!goHome) {
+								goHome = true;
+								m2f = (m2f + 3) % 6;//reverse it.
+
+							}
+						}
+						if (goHome && m2x == home_m2x && m2y == home_m2y) {
+							getHome = true;
+						}
+						if (getHome) {
+							m2r = false;
+							m2f = (m2f + 3) % 6;//reverse it.
+							getRec = false;
+							goHome = false;
+							getHome = false;
+						}
+					}
+				
+				drawman(draw, m1f, m1x, m1y);
+				drawman(draw, m2f, m2x, m2y);
+				drawgun(draw);
+				drawmap(draw);
+
+
+				if (plx == 598 && ply == 160) {
+					lose = true;
+				}
+				else if ((plx == 644) && (ply == 240)) {
+					if ((m1x != 598) || (m1y != 160)) {
+						lose = true;
+					}
+				}
+				else if ((plx == 690) && (ply == 320)) {
+					lose = true;
+					if ((m1x == 598) && (m1y == 160)) {
+						lose = false;
+					}
+					else if (((m1x == 644) && (m1y == 240)) || ((m2x == 644) && (m2y == 240))) {
+						lose = false;
+					}
+				}
+
+				if ((plx == 92) && (ply == 80) && (steal == true)) {
+					win = true;
+				}
+			}
+
+
+			if (lose == true) {
+				draw.clearRect(0, 0, c.width, c.height);
+				alert("You Die!");
+			}
+			if (win == true) {
+				draw.clearRect(0, 0, c.width, c.height);
+				alert("You Win!");
+			}
+		}
+
+
+
+		function drawplayer(draw, x, y) {
+			draw.beginPath();
+			draw.arc(x, y, 30, 0, 2 * Math.PI);
+			draw.stroke();
+		}
+
+		function drawrec(draw, x, y) {
+			draw.fillRect(x, y, 40, 40);
+		}
+
+		function drawman(draw, face, x, y) {
+			if (face == 1) {
+				draw.beginPath();
+				draw.arc(x, y, 30, 0, 2 * Math.PI)
+				draw.stroke();
+				draw.beginPath();
+				draw.arc(x, y, 40, (2 / 3) * Math.PI, (4 / 3) * Math.PI, 0);
+				draw.stroke();
+			}
+			if (face == 2) {
+				draw.beginPath();
+				draw.arc(x, y, 30, 0, 2 * Math.PI)
+				draw.stroke();
+				draw.beginPath();
+				draw.arc(x, y, 40, (3 / 3) * Math.PI, (5 / 3) * Math.PI, 0);
+				draw.stroke();
+			}
+			if (face == 3) {
+				draw.beginPath();
+				draw.arc(x, y, 30, 0, 2 * Math.PI)
+				draw.stroke();
+				draw.beginPath();
+				draw.arc(x, y, 40, (4 / 3) * Math.PI, 0 * Math.PI, 0);
+				draw.stroke();
+			}
+			if (face == 4) {
+				draw.beginPath();
+				draw.arc(x, y, 30, 0, 2 * Math.PI)
+				draw.stroke();
+				draw.beginPath();
+				draw.arc(x, y, 40, (5 / 3) * Math.PI, (1 / 3) * Math.PI, 0);
+				draw.stroke();
+			}
+			if (face == 5) {
+				draw.beginPath();
+				draw.arc(x, y, 30, 0, 2 * Math.PI)
+				draw.stroke();
+				draw.beginPath();
+				draw.arc(x, y, 40, 0 * Math.PI, (2 / 3) * Math.PI, 0);
+				draw.stroke();
+			}
+			if (face == 6) {
+				draw.beginPath();
+				draw.arc(x, y, 30, 0, 2 * Math.PI)
+				draw.stroke();
+				draw.beginPath();
+				draw.arc(x, y, 40, (1 / 3) * Math.PI, (3 / 3) * Math.PI, 0);
+				draw.stroke();
+			}
+		}
+
+		function drawgun(draw) {
+			draw.beginPath();
+			draw.arc(552, 80, 30, 0, 2 * Math.PI);
+			draw.stroke();
+			draw.beginPath();
+			draw.arc(552, 80, 40, 0 * Math.PI, (2 / 3) * Math.PI, 0);
+			draw.stroke();
+			draw.beginPath();
+			draw.arc(552, 80, 50, 0 * Math.PI, (2 / 3) * Math.PI, 0);
+			draw.stroke();
+		}
+
+		function drawmap(draw) {
+			draw.strokeStyle = "#000000";
+			draw.moveTo(92, 80);
+			draw.lineTo(138, 160);
+			draw.lineTo(874, 160);
+			draw.lineTo(828, 80);
+			draw.stroke();
+			draw.strokeStyle = "#000000";
+			draw.moveTo(276, 240);
+			draw.lineTo(828, 240);
+			draw.stroke();
+			draw.strokeStyle = "#000000";
+			draw.moveTo(276, 240);
+			draw.lineTo(322, 160);
+			draw.lineTo(368, 240);
+			draw.lineTo(414, 160);
+			draw.lineTo(460, 240);
+			draw.lineTo(506, 160);
+			draw.lineTo(552, 240);
+			draw.lineTo(598, 160);
+			draw.lineTo(644, 240);
+			draw.lineTo(690, 160);
+			draw.lineTo(736, 240);
+			draw.lineTo(782, 160);
+			draw.lineTo(828, 240);
+			draw.lineTo(874, 160);
+			draw.stroke();
+			draw.strokeStyle = "#000000";
+			draw.moveTo(552, 80);
+			draw.lineTo(598, 160);
+			draw.stroke();
+			draw.strokeStyle = "#000000";
+			draw.moveTo(552, 240);
+			draw.lineTo(598, 320);
+			draw.lineTo(690, 320);
+			draw.lineTo(644, 240);
+			draw.stroke();
+			draw.strokeStyle = "#000000";
+			draw.moveTo(552, 240);
+			draw.lineTo(598, 320);
+			draw.lineTo(690, 320);
+			draw.lineTo(644, 240);
+			draw.stroke();
+			draw.strokeStyle = "#000000";
+			draw.moveTo(736, 240);
+			draw.lineTo(690, 320);
+			draw.lineTo(782, 320);
+			draw.lineTo(828, 240);
+			draw.stroke();
+			draw.strokeStyle = "#000000";
+			draw.moveTo(598, 320);
+			draw.lineTo(782, 320);
+			draw.stroke();
+
+
+			draw.strokeStyle = "#000000";
+			draw.moveTo(92, 80);
+			draw.lineTo(138, 160);
+			draw.lineTo(874, 160);
+			draw.lineTo(828, 80);
+			draw.stroke();
+			draw.strokeStyle = "#000000";
+			draw.moveTo(276, 240);
+			draw.lineTo(828, 240);
+			draw.stroke();
+			draw.strokeStyle = "#000000";
+			draw.moveTo(276, 240);
+			draw.lineTo(322, 160);
+			draw.lineTo(368, 240);
+			draw.lineTo(414, 160);
+			draw.lineTo(460, 240);
+			draw.lineTo(506, 160);
+			draw.lineTo(552, 240);
+			draw.lineTo(598, 160);
+			draw.lineTo(644, 240);
+			draw.lineTo(690, 160);
+			draw.lineTo(736, 240);
+			draw.lineTo(782, 160);
+			draw.lineTo(828, 240);
+			draw.lineTo(874, 160);
+			draw.stroke();
+			draw.strokeStyle = "#000000";
+			draw.moveTo(552, 80);
+			draw.lineTo(598, 160);
+			draw.stroke();
+			draw.strokeStyle = "#000000";
+			draw.moveTo(552, 240);
+			draw.lineTo(598, 320);
+			draw.lineTo(690, 320);
+			draw.lineTo(644, 240);
+			draw.stroke();
+			draw.strokeStyle = "#000000";
+			draw.moveTo(552, 240);
+			draw.lineTo(598, 320);
+			draw.lineTo(690, 320);
+			draw.lineTo(644, 240);
+			draw.stroke();
+			draw.strokeStyle = "#000000";
+			draw.moveTo(736, 240);
+			draw.lineTo(690, 320);
+			draw.lineTo(782, 320);
+			draw.lineTo(828, 240);
+			draw.stroke();
+			draw.strokeStyle = "#000000";
+			draw.moveTo(598, 320);
+			draw.lineTo(782, 320);
+			draw.stroke();
+		}
+
+		document.onkeydown = function (f) {
+			var f = f || window.event;
+			if (f.keyCode == 65) {
+				a = true;
+			}
+			if (f.keyCode == 87) {
+				w = true;
+			}
+			if (f.keyCode == 69) {
+				e = true;
+			}
+			if (f.keyCode == 68) {
+				d = true;
+			}
+			if (f.keyCode == 88) {
+				x = true;
+			}
+			if (f.keyCode == 90) {
+				z = true;
+			}
+		}
+		document.onkeyup = function (f) {
+			var f = f || window.event;
+			if (f.keyCode == 65) {
+				a = false;
+			}
+			if (f.keyCode == 87) {
+				w = false;
+			}
+			if (f.keyCode == 69) {
+				e = false;
+			}
+			if (f.keyCode == 68) {
+				d = false;
+			}
+			if (f.keyCode == 88) {
+				x = true;
+			}
+			if (f.keyCode == 90) {
+				z = true;
+			}
+		}
+	</script>
+</body>
+
+</html>
