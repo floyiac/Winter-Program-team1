@@ -1,6 +1,20 @@
 # Winter-Program-team1
 # A Little Game
 
+
+#### Group Member:
+
+#### Secretary: Yilin Zhang
+
+#### Source Management: Dier Hou
+
+#### Style: WenTao Xu, YuXiang Zhou
+
+#### Requirements: ZhuoWei Chen
+
+#### Testins: ChenHao Zheng
+
+
 ### This is a little game redesigned and implemented by a group of students
 
 ## Now here are a few tips about how to play the game
