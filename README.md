@@ -7,10 +7,15 @@
 
 ### The character that you are controlling is represented as a (ball). You can control it via these keys:
 (W) for upper left
+
 (E) for upper right
+
 (A) for left
+
 (D) for right
+
 (Z) for lower left
+
 (X) for lower right
 
 What you are gonna do is to steal the rectangle and safely return to where you start
