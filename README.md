@@ -36,5 +36,6 @@ What you are gonna do is to steal the rectangle and safely return to where you s
 The enemies armed with guns are represented as a (balls with two covers). They will kill the invader immediately when the invader(you) comes into their visions! You should never be seen by them!
 The enemies armed with knives are represented as (balls with one cover). They will run to catch the invader! You should never be caught up by them!
 
+*** 
 
 ## @Designed and devoted by a player in the game “Break Out and Attack”（《突出重围：出击》in Chinese）
