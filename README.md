@@ -14,11 +14,11 @@
 
 #### Testins: ChenHao Zheng
 
-This is a little game redesigned and implemented by a group of students
+## This is a little game redesigned and implemented by a group of students
 
-Now here are a few tips about how to play the game
+## Now here are a few tips about how to play the game
 
-The character that you are controlling is represented as a (ball). You can control it via these keys:
+## The character that you are controlling is represented as a (ball). You can control it via these keys:
 ### (W) for upper left
 
 ### (E) for upper right
