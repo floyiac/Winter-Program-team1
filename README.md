@@ -1,11 +1,11 @@
 # Winter-Program-team1
-#A Little Game
+# A Little Game
 
-###This is a little game redesigned and implemented by a group of students
+### This is a little game redesigned and implemented by a group of students
 
-##Now here are a few tips about how to play the game
-T
-he character that you are controlling is represented as a (ball). You can control it via these keys:
+## Now here are a few tips about how to play the game
+
+### The character that you are controlling is represented as a (ball). You can control it via these keys:
 (W) for upper left
 (E) for upper right
 (A) for left
@@ -18,4 +18,4 @@ The enemies armed with guns are represented as a (balls with two covers). They w
 The enemies armed with knives are represented as (balls with one cover). They will run to catch the invader! You should never be caught up by them!
 
 
-@Designed and devoted by a player in the game “Break Out and Attack”（《突出重围：出击》in Chinese）
+## @Designed and devoted by a player in the game “Break Out and Attack”（《突出重围：出击》in Chinese）
